@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>مؤسسة تكيفات | خميس مشيط وأبها</title>
+  <title>مؤسسة القطب الأزرق | خميس مشيط وأبها</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -57,11 +57,17 @@
       text-decoration: none;
     }
     .logo-icon {
-      width: 40px; height: 40px;
-      background: var(--sky);
+      width: 44px; height: 44px;
+      background: var(--white);
       border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 22px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .logo-icon img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: block;
     }
     .logo-text { color: var(--white); font-size: 18px; font-weight: 700; line-height: 1.2; }
     .logo-text span { color: var(--sky); display: block; font-size: 12px; font-weight: 400; }
@@ -92,14 +98,17 @@
     .nav-links a:hover::after { width: 100%; }
 
     .nav-cta {
-      background: var(--sky);
-      color: var(--navy) !important;
+      background: #25D366;
+      color: var(--white) !important;
       padding: 8px 20px;
       border-radius: 50px;
       font-weight: 700 !important;
       transition: background .2s, transform .2s !important;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
-    .nav-cta:hover { background: var(--sky-lt); transform: scale(1.04); }
+    .nav-cta:hover { background: #1ebe5b; transform: scale(1.04); }
     .nav-cta::after { display: none !important; }
 
     /* Hamburger */
@@ -257,8 +266,8 @@
       flex-wrap: wrap;
     }
     .btn-primary {
-      background: var(--sky);
-      color: var(--navy);
+      background: #25D366;
+      color: var(--white);
       padding: 14px 32px;
       border-radius: 50px;
       font-weight: 700;
@@ -268,9 +277,9 @@
       align-items: center;
       gap: 8px;
       transition: transform .2s, box-shadow .2s;
-      box-shadow: 0 6px 20px rgba(0,180,216,.35);
+      box-shadow: 0 6px 20px rgba(37,211,102,.4);
     }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,180,216,.5); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(37,211,102,.55); }
 
     .btn-outline {
       border: 2px solid rgba(255,255,255,.3);
@@ -521,6 +530,101 @@
     .why-card h3 { color: var(--white); font-size: 17px; font-weight: 700; margin-bottom: 10px; }
     .why-card p  { color: rgba(255,255,255,.55); font-size: 14px; line-height: 1.7; }
 
+    /* ========== GALLERY ========== */
+    #gallery { background: var(--white); }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .gallery-item {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 1 / 1;
+      cursor: pointer;
+      background: var(--gray);
+      border: 1px solid #E8EDF2;
+    }
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .4s ease;
+    }
+    .gallery-item:hover img { transform: scale(1.08); }
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,37,64,.65) 0%, rgba(10,37,64,0) 55%);
+      opacity: 0;
+      transition: opacity .3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 12px;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-overlay span {
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* Lightbox */
+    #lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(6,15,26,.94);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    #lightbox.open { display: flex; }
+    #lightbox img {
+      max-width: 90vw;
+      max-height: 85vh;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    }
+    .lightbox-close, .lightbox-nav {
+      position: absolute;
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.25);
+      color: var(--white);
+      border-radius: 50%;
+      width: 46px; height: 46px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .lightbox-close:hover, .lightbox-nav:hover { background: rgba(0,180,216,.3); }
+    .lightbox-close { top: 24px; left: 24px; }
+    .lightbox-nav.prev { right: 24px; top: 50%; transform: translateY(-50%); }
+    .lightbox-nav.next { left: 24px; top: 50%; transform: translateY(-50%); }
+    .lightbox-counter {
+      position: absolute;
+      bottom: 24px;
+      right: 50%;
+      transform: translateX(50%);
+      color: rgba(255,255,255,.7);
+      font-size: 14px;
+      font-weight: 600;
+      background: rgba(255,255,255,.08);
+      padding: 6px 16px;
+      border-radius: 50px;
+    }
+
+    @media (max-width: 900px) {
+      .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .lightbox-nav { width: 38px; height: 38px; font-size: 18px; }
+    }
+
     /* ========== CTA ========== */
     #cta {
       background: linear-gradient(135deg, #00B4D8 0%, #0077B6 100%);
@@ -557,7 +661,7 @@
     }
     .btn-white {
       background: var(--white);
-      color: var(--sky);
+      color: #1ebe5b;
       padding: 14px 36px;
       border-radius: 50px;
       font-weight: 700;
@@ -585,6 +689,150 @@
       transition: background .2s, border-color .2s;
     }
     .btn-ghost-white:hover { background: rgba(255,255,255,.15); border-color: var(--white); }
+
+    /* ========== DUCT & FOUNDATION ========== */
+    #duct-foundation {
+      background: var(--gray);
+      padding: 90px 24px;
+    }
+
+    .df-tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 44px;
+      flex-wrap: wrap;
+    }
+    .df-tab {
+      padding: 10px 26px;
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 2px solid #E0E8EF;
+      background: transparent;
+      color: var(--muted);
+      font-family: 'Cairo', sans-serif;
+      transition: all .25s;
+    }
+    .df-tab.active {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: var(--white);
+    }
+    .df-tab:not(.active):hover {
+      border-color: var(--sky);
+      color: var(--sky);
+    }
+
+    .df-panel { display: none; }
+    .df-panel.active { display: block; }
+
+    .df-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .df-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .df-step {
+      display: flex;
+      gap: 20px;
+      position: relative;
+      padding-bottom: 28px;
+    }
+    .df-step:last-child { padding-bottom: 0; }
+    .df-step-line {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .df-step-num {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--white);
+      font-size: 15px;
+      font-weight: 900;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .df-step.highlight .df-step-num {
+      background: var(--sky);
+      color: var(--navy);
+    }
+    .df-connector {
+      width: 2px;
+      flex: 1;
+      background: linear-gradient(to bottom, var(--navy), rgba(0,180,216,.2));
+      margin-top: 4px;
+      min-height: 28px;
+    }
+    .df-step:last-child .df-connector { display: none; }
+
+    .df-step-body { padding-top: 8px; }
+    .df-step-body h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .df-step-body p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .df-info-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .df-info-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 22px;
+      border: 1px solid #E8EDF2;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: box-shadow .2s, border-color .2s;
+    }
+    .df-info-card:hover {
+      box-shadow: 0 6px 24px rgba(0,0,0,.07);
+      border-color: var(--sky-lt);
+    }
+    .df-info-icon {
+      width: 46px; height: 46px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0,180,216,.15), rgba(0,180,216,.07));
+      border: 1px solid rgba(0,180,216,.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .df-info-card h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 5px;
+    }
+    .df-info-card p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    @media (max-width: 768px) {
+      .df-layout { grid-template-columns: 1fr; gap: 32px; }
+    }
 
     /* ========== FOOTER ========== */
     footer {
@@ -663,10 +911,11 @@
     .float-btn:hover .tooltip { opacity: 1; }
 
     .float-wa {
+      width: 62px; height: 62px;
       background: #25D366;
-      box-shadow: 0 6px 20px rgba(37,211,102,.4);
+      box-shadow: 0 6px 20px rgba(37,211,102,.45);
     }
-    .float-wa:hover { box-shadow: 0 10px 30px rgba(37,211,102,.6); }
+    .float-wa:hover { box-shadow: 0 10px 30px rgba(37,211,102,.65); }
 
     .float-call {
       background: var(--sky);
@@ -714,18 +963,20 @@
 <nav id="navbar">
   <div class="nav-inner">
     <a href="#hero" class="logo">
-      <div class="logo-icon">❄️</div>
+      <div class="logo-icon"><img src="logo.png" alt="مؤسسة القطب الأزرق"></div>
       <div class="logo-text">
-        مؤسسة تكيفات
+        مؤسسة القطب الأزرق
         <span>خميس مشيط · أبها</span>
       </div>
     </a>
 
     <ul class="nav-links">
       <li><a href="#services">خدماتنا</a></li>
+      <li><a href="#duct-foundation">الدكت والتأسيس</a></li>
+      <li><a href="#gallery">معرض أعمالنا</a></li>
       <li><a href="#about">من نحن</a></li>
       <li><a href="#why">لماذا نحن</a></li>
-      <li><a href="tel:0541927954" class="nav-cta">📞 اتصل الآن</a></li>
+      <li><a href="https://wa.me/966541927954" target="_blank" class="nav-cta">💬 واتساب الآن</a></li>
     </ul>
 
     <button class="hamburger" id="hamburger" aria-label="القائمة">
@@ -734,10 +985,13 @@
   </div>
 
   <div class="mobile-menu" id="mobile-menu">
-    <a href="#services"  onclick="closeMenu()">خدماتنا</a>
-    <a href="#about"     onclick="closeMenu()">من نحن</a>
+    <a href="#services"        onclick="closeMenu()">خدماتنا</a>
+    <a href="#duct-foundation" onclick="closeMenu()">الدكت والتأسيس</a>
+    <a href="#gallery"         onclick="closeMenu()">معرض أعمالنا</a>
+    <a href="#about"           onclick="closeMenu()">من نحن</a>
     <a href="#why"       onclick="closeMenu()">لماذا نحن</a>
     <a href="#cta"       onclick="closeMenu()">تواصل معنا</a>
+    <a href="https://wa.me/966541927954" target="_blank" style="color:#25D366;font-weight:700;">💬 تواصل عبر واتساب</a>
     <a href="tel:0541927954" style="color:var(--sky);font-weight:700;">📞 0541927954</a>
   </div>
 </nav>
@@ -767,8 +1021,8 @@
         نضمن راحتك وبرودتك في أقصر وقت وبأفضل جودة.
       </p>
       <div class="hero-btns">
-        <a href="tel:0541927954" class="btn-primary">📞 اتصل الآن</a>
-        <a href="https://wa.me/966541927954" target="_blank" class="btn-outline">💬 واتساب</a>
+        <a href="https://wa.me/966541927954" target="_blank" class="btn-primary">💬 تواصل معنا واتساب</a>
+        <a href="tel:0541927954" class="btn-outline">📞 اتصال مباشر</a>
       </div>
     </div>
 
@@ -836,6 +1090,224 @@
   </div>
 </section>
 
+<!-- ===== DUCT & FOUNDATION ===== -->
+<section id="duct-foundation">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-badge">🔩 أعمال متخصصة</div>
+      <h2 class="section-title">أعمال <em>الدكت والتأسيس</em></h2>
+      <p class="section-sub">نتخصص في تنفيذ أعمال الدكت والتأسيس بدقة هندسية عالية من أول يوم بناء حتى التسليم النهائي.</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="df-tabs">
+      <button class="df-tab active" onclick="showTab('duct')">🌀 أعمال الدكت</button>
+      <button class="df-tab" onclick="showTab('foundation')">⚡ أعمال التأسيس</button>
+    </div>
+
+    <!-- Panel: Duct -->
+    <div class="df-panel active" id="panel-duct">
+      <div class="df-layout">
+        <div class="df-steps">
+          <div class="df-step">
+            <div class="df-step-line">
+              <div class="df-step-num">1</div>
+              <div class="df-connector"></div>
+            </div>
+            <div class="df-step-body">
+              <h4>دراسة المخططات وتحديد المسارات</h4>
+              <p>نبدأ بدراسة مخططات المبنى وتحديد أفضل مسارات الدكت لتوزيع الهواء البارد بشكل متوازن في جميع الغرف.</p>
+            </div>
+          </div>
+          <div class="df-step highlight">
+            <div class="df-step-line">
+              <div class="df-step-num">2</div>
+              <div class="df-connector"></div>
+            </div>
+            <div class="df-step-body">
+              <h4>توريد وتفصيل الدكت الجلفاني</h4>
+              <p>نستخدم الدكت الجلفاني عالي الجودة ونقوم بتفصيله حسب أبعاد كل مسار لضمان أفضل معدل تدفق هواء.</p>
+            </div>
+          </div>
+          <div class="df-step">
+            <div class="df-step-line">
+              <div class="df-step-num">3</div>
+              <div class="df-connector"></div>
+            </div>
+            <div class="df-step-body">
+              <h4>تركيب الدكت والعوازل</h4>
+              <p>تركيب الدكت مع العوازل الحرارية الكاملة لمنع الفقد في درجات الحرارة وتوفير استهلاك الطاقة.</p>
+            </div>
+          </div>
+          <div class="df-step highlight">
+            <div class="df-step-line">
+              <div class="df-step-num">4</div>
+              <div class="df-connector"></div>
+            </div>
+            <div class="df-step-body">
+              <h4>تركيب الفتحات والمصبات</h4>
+              <p>تركيب فتحات توزيع الهواء (Diffusers & Grilles) في المواقع المحددة بدقة لضمان توزيع مثالي.</p>
+            </div>
+          </div>
+          <div class="df-step">
+            <div class="df-step-line">
+              <div class="df-step-num">5</div>
+              <div class="df-connector"></div>
+            </div>
+            <div class="df-step-body">
+              <h4>اختبار وموازنة تدفق الهواء</h4>
+              <p>اختبار شامل لمعدلات تدفق الهواء في كل فتحة وضبطها للحصول على توزيع متساوٍ وأداء مثالي.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="df-info-cards">
+          <div class="df-info-card">
+            <div class="df-info-icon">🌀</div>
+            <div>
+              <h4>دكت جلفاني عالي الجودة</h4>
+              <p>نستخدم الدكت الجلفاني المطابق للمواصفات السعودية مع حماية كاملة من الصدأ والتآكل.</p>
+            </div>
+          </div>
+          <div class="df-info-card">
+            <div class="df-info-icon">🧱</div>
+            <div>
+              <h4>عزل حراري كامل</h4>
+              <p>تغليف الدكت بعوازل حرارية من الفايبرغلاس أو البوليسترين لتقليل الفاقد الحراري وتوفير الكهرباء.</p>
+            </div>
+          </div>
+          <div class="df-info-card">
+            <div class="df-info-icon">💨</div>
+            <div>
+              <h4>توزيع هواء متوازن</h4>
+              <p>تصميم دقيق لمسارات الدكت يضمن وصول الهواء البارد بنفس الكفاءة لجميع غرف المبنى.</p>
+            </div>
+          </div>
+          <div class="df-info-card">
+            <div class="df-info-icon">🏗️</div>
+            <div>
+              <h4>تنفيذ نظيف ومرتب</h4>
+              <p>تنفيذ احترافي داخل الأسقف المستعارة مع تشطيب نظيف لا يؤثر على التصميم الداخلي للمبنى.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel: Foundation -->
+    <div class="df-panel" id="panel-foundation">
+      <div class="df-layout">
+        <div class="df-steps">
+          <div class="df-step">
+            <div class="df-step-line">
+              <div class="df-step-num">1</div>
+              <div class="df-connector"></div>
+            </div>
+            <div class="df-step-body">
+              <h4>الاطلاع على مخططات المبنى</h4>
+              <p>مراجعة المخططات المعمارية والكهربائية لتحديد أفضل مواقع وحدات التكييف والمسارات قبل بدء البناء.</p>
+            </div>
+          </div>
+          <div class="df-step highlight">
+            <div class="df-step-line">
+              <div class="df-step-num">2</div>
+              <div class="df-connector"></div>
+            </div>
+            <div class="df-step-body">
+              <h4>تمديد مواسير الصرف والفريون</h4>
+              <p>تمديد مواسير صرف الكوندنسيت ومواسير الفريون النحاسية داخل الجدران والأسقف مع مرحلة البناء.</p>
+            </div>
+          </div>
+          <div class="df-step">
+            <div class="df-step-line">
+              <div class="df-step-num">3</div>
+              <div class="df-connector"></div>
+            </div>
+            <div class="df-step-body">
+              <h4>تأسيس الكابلات الكهربائية</h4>
+              <p>تمديد الكابلات الكهربائية الخاصة بالمكيفات مع الحسابات الكهربائية الدقيقة لكل وحدة.</p>
+            </div>
+          </div>
+          <div class="df-step highlight">
+            <div class="df-step-line">
+              <div class="df-step-num">4</div>
+              <div class="df-connector"></div>
+            </div>
+            <div class="df-step-body">
+              <h4>تحديد وتثبيت حوامل الوحدات</h4>
+              <p>تحديد مواقع تثبيت الوحدات الداخلية والخارجية وتجهيز الحوامل المناسبة قبل التشطيب.</p>
+            </div>
+          </div>
+          <div class="df-step">
+            <div class="df-step-line">
+              <div class="df-step-num">5</div>
+              <div class="df-connector"></div>
+            </div>
+            <div class="df-step-body">
+              <h4>التركيب النهائي والتشغيل</h4>
+              <p>بعد اكتمال التشطيب نتولى تركيب الوحدات وتوصيل كل المواسير والكابلات واختبار التشغيل الكامل.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="df-info-cards">
+          <div class="df-info-card">
+            <div class="df-info-icon">📐</div>
+            <div>
+              <h4>تخطيط مسبق دقيق</h4>
+              <p>ندرس المبنى قبل البناء لنضع أفضل تصميم يوفر الوقت والتكلفة ويضمن نتيجة احترافية.</p>
+            </div>
+          </div>
+          <div class="df-info-card">
+            <div class="df-info-icon">🔩</div>
+            <div>
+              <h4>مواسير نحاسية معتمدة</h4>
+              <p>نستخدم مواسير الفريون النحاسية المعتمدة والمعزولة بشكل جيد لضمان أداء المكيف على المدى البعيد.</p>
+            </div>
+          </div>
+          <div class="df-info-card">
+            <div class="df-info-icon">⚡</div>
+            <div>
+              <h4>تمديدات كهربائية آمنة</h4>
+              <p>تمديد الكابلات الكهربائية وفق الأكواد السعودية مع توفير دوائر مستقلة لكل مكيف.</p>
+            </div>
+          </div>
+          <div class="df-info-card">
+            <div class="df-info-icon">✅</div>
+            <div>
+              <h4>تسليم جاهز للتشغيل</h4>
+              <p>عند التسليم يكون كل شيء جاهزاً 100% — نوصل وحدات المكيفات ونشغل المنظومة فوراً.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== GALLERY ===== -->
+<section id="gallery">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-badge">📸 معرض أعمالنا</div>
+      <h2 class="section-title">شاهد <em>أعمالنا</em> بنفسك</h2>
+      <p class="section-sub">مجموعة من أعمال التركيب والصيانة والتأسيس التي نفذناها لعملائنا في خميس مشيط وأبها.</p>
+    </div>
+
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div id="lightbox">
+  <div class="lightbox-close" id="lightbox-close">✕</div>
+  <div class="lightbox-nav prev" id="lightbox-prev">‹</div>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-nav next" id="lightbox-next">›</div>
+  <div class="lightbox-counter" id="lightbox-counter"></div>
+</div>
+
 <!-- ===== ABOUT ===== -->
 <section id="about">
   <div class="section-inner">
@@ -857,14 +1329,13 @@
         <div class="section-badge">💡 من نحن</div>
         <h2 class="section-title">مؤسسة رائدة في<br><em>حلول التكييف</em></h2>
         <p class="section-sub">
-          مؤسسة تكيفات هي شركة متخصصة في تركيب وصيانة وغسيل جميع أنواع المكيفات
+          مؤسسة القطب الأزرق هي شركة متخصصة في تركيب وصيانة وغسيل جميع أنواع المكيفات
           في مدينتي خميس مشيط وأبها بمنطقة عسير جنوب المملكة العربية السعودية.
           نمتلك فريقاً من الفنيين المدربين على أعلى مستوى، ونحرص على تقديم أفضل جودة بأسعار في متناول الجميع.
         </p>
         <ul class="about-points">
           <li><div class="check">✓</div>فنيون معتمدون ومدربون على أحدث التقنيات</li>
           <li><div class="check">✓</div>نستخدم قطع غيار وأدوات أصلية معتمدة</li>
-          <li><div class="check">✓</div>خدمة طوارئ متاحة 24 ساعة طوال أيام الأسبوع</li>
           <li><div class="check">✓</div>نخدم خميس مشيط وأبها وجميع مناطق عسير</li>
           <li><div class="check">✓</div>أسعار تنافسية مع ضمان على جميع أعمالنا</li>
         </ul>
@@ -921,10 +1392,10 @@
 <section id="cta">
   <div class="section-inner" style="max-width:700px; position:relative; z-index:1;">
     <h2 class="cta-title">جاهزون لخدمتك الآن</h2>
-    <p class="cta-sub">تواصل معنا الآن واحصل على استشارة مجانية وعرض سعر فوري</p>
+    <p class="cta-sub">راسلنا على واتساب الآن واحصل على استشارة مجانية وعرض سعر فوري</p>
     <div class="cta-btns">
-      <a href="tel:0541927954" class="btn-white">📞 اتصل بنا مباشرة</a>
-      <a href="https://wa.me/966541927954" target="_blank" class="btn-ghost-white">💬 تواصل عبر واتساب</a>
+      <a href="https://wa.me/966541927954" target="_blank" class="btn-white">💬 تواصل عبر واتساب</a>
+      <a href="tel:0541927954" class="btn-ghost-white">📞 اتصل بنا مباشرة</a>
     </div>
     <p style="color:rgba(255,255,255,.7); margin-top:20px; font-size:15px; font-weight:600;">
       📍 خميس مشيط وأبها — جنوب المملكة العربية السعودية
@@ -938,8 +1409,8 @@
     <div class="footer-top">
       <div class="footer-brand">
         <a href="#hero" class="logo">
-          <div class="logo-icon">❄️</div>
-          <div class="logo-text">مؤسسة تكيفات<span>خميس مشيط · أبها</span></div>
+          <div class="logo-icon"><img src="logo.png" alt="مؤسسة القطب الأزرق"></div>
+          <div class="logo-text">مؤسسة القطب الأزرق<span>خميس مشيط · أبها</span></div>
         </a>
         <p>متخصصون في تركيب وصيانة وغسيل جميع أنواع المكيفات في جنوب المملكة العربية السعودية.</p>
       </div>
@@ -958,15 +1429,15 @@
       <div class="footer-links">
         <h4>تواصل معنا</h4>
         <ul>
-          <li><a href="tel:0541927954">📞 0541927954</a></li>
           <li><a href="https://wa.me/966541927954" target="_blank">💬 واتساب</a></li>
+          <li><a href="tel:0541927954">📞 0541927954</a></li>
           <li><a href="#about">📍 خميس مشيط وأبها</a></li>
         </ul>
       </div>
     </div>
 
     <div class="footer-bottom">
-      <p>© 2025 مؤسسة تكيفات — جميع الحقوق محفوظة | خميس مشيط وأبها، جنوب المملكة العربية السعودية</p>
+      <p>© 2025 مؤسسة القطب الأزرق — جميع الحقوق محفوظة | خميس مشيط وأبها، جنوب المملكة العربية السعودية</p>
     </div>
   </div>
 </footer>
@@ -974,7 +1445,7 @@
 <!-- ===== FLOATING BUTTONS ===== -->
 <div class="floats">
   <a href="https://wa.me/966541927954" target="_blank" class="float-btn float-wa" title="واتساب">
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
       <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.553 4.116 1.524 5.85L.057 23.7a.75.75 0 0 0 .918.918l5.85-1.467A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.937 9.937 0 0 1-5.058-1.378.75.75 0 0 0-.572-.077l-4.02 1.007 1.007-4.02a.75.75 0 0 0-.077-.572A9.937 9.937 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
     </svg>
@@ -989,6 +1460,65 @@
 </div>
 
 <script>
+  // Build gallery (1.jpg ... 20.jpg)
+  const galleryGrid = document.getElementById('gallery-grid');
+  const galleryImages = [];
+  for (let i = 1; i <= 20; i++) {
+    galleryImages.push(i + '.jpg');
+  }
+  galleryImages.forEach((src, idx) => {
+    const item = document.createElement('div');
+    item.className = 'gallery-item';
+    item.innerHTML = `
+      <img src="${src}" alt="صورة عمل رقم ${idx + 1}" loading="lazy">
+      <div class="gallery-overlay"><span>عرض الصورة</span></div>
+    `;
+    item.addEventListener('click', () => openLightbox(idx));
+    galleryGrid.appendChild(item);
+  });
+
+  // Lightbox logic
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxCounter = document.getElementById('lightbox-counter');
+  let currentIndex = 0;
+
+  function openLightbox(idx) {
+    currentIndex = idx;
+    updateLightbox();
+    lightbox.classList.add('open');
+  }
+  function updateLightbox() {
+    lightboxImg.src = galleryImages[currentIndex];
+    lightboxCounter.textContent = (currentIndex + 1) + ' / ' + galleryImages.length;
+  }
+  document.getElementById('lightbox-close').addEventListener('click', () => lightbox.classList.remove('open'));
+  document.getElementById('lightbox-next').addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % galleryImages.length;
+    updateLightbox();
+  });
+  document.getElementById('lightbox-prev').addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+    updateLightbox();
+  });
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) lightbox.classList.remove('open');
+  });
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') lightbox.classList.remove('open');
+    if (e.key === 'ArrowLeft') document.getElementById('lightbox-prev').click();
+    if (e.key === 'ArrowRight') document.getElementById('lightbox-next').click();
+  });
+
+  // Tab switching for duct/foundation
+  function showTab(tab) {
+    document.querySelectorAll('.df-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.df-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + tab).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+
   // Navbar scroll effect
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
