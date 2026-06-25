@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مؤسسة تكيفات | خميس مشيط وأبها</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #0A2540;
+      --sky:     #00B4D8;
+      --sky-lt:  #90E0EF;
+      --ice:     #CAF0F8;
+      --white:   #FFFFFF;
+      --gray:    #F5F8FA;
+      --text:    #1A1A2E;
+      --muted:   #607080;
+      --radius:  14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ========== NAVBAR ========== */
+    #navbar {
+      position: fixed;
+      top: 0; right: 0; left: 0;
+      z-index: 1000;
+      background: rgba(10, 37, 64, 0.97);
+      backdrop-filter: blur(10px);
+      transition: box-shadow .3s;
+    }
+    #navbar.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,.3); }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 24px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 40px; height: 40px;
+      background: var(--sky);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+    }
+    .logo-text { color: var(--white); font-size: 18px; font-weight: 700; line-height: 1.2; }
+    .logo-text span { color: var(--sky); display: block; font-size: 12px; font-weight: 400; }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,.8);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 600;
+      transition: color .2s;
+      position: relative;
+      padding-bottom: 4px;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 0; height: 2px;
+      background: var(--sky);
+      transition: width .3s;
+    }
+    .nav-links a:hover { color: var(--sky); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      background: var(--sky);
+      color: var(--navy) !important;
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-weight: 700 !important;
+      transition: background .2s, transform .2s !important;
+    }
+    .nav-cta:hover { background: var(--sky-lt); transform: scale(1.04); }
+    .nav-cta::after { display: none !important; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 25px; height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: transform .3s, opacity .3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: rgba(10,37,64,.98);
+      padding: 20px 24px 28px;
+      border-top: 1px solid rgba(255,255,255,.1);
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: rgba(255,255,255,.85);
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      transition: color .2s;
+    }
+    .mobile-menu a:hover { color: var(--sky); }
+    .mobile-menu a:last-child { border: none; }
+
+    /* ========== HERO ========== */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0A2540 0%, #0e3460 55%, #0A2540 100%);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: 70px;
+    }
+
+    /* Animated air waves */
+    .wave-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .wave-bg svg {
+      width: 100%; height: 100%;
+      opacity: .12;
+    }
+
+    .particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--sky);
+      animation: floatUp linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(100%) scale(0); opacity: 0; }
+      20%  { opacity: .5; }
+      80%  { opacity: .3; }
+      100% { transform: translateY(-120vh) scale(1.5); opacity: 0; }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: auto;
+      padding: 60px 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,180,216,.15);
+      border: 1px solid rgba(0,180,216,.35);
+      color: var(--sky-lt);
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .hero-badge .dot {
+      width: 8px; height: 8px;
+      background: var(--sky);
+      border-radius: 50%;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: .5; transform: scale(.7); }
+    }
+
+    .hero-title {
+      font-size: clamp(32px, 5vw, 58px);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.25;
+      margin-bottom: 20px;
+    }
+    .hero-title em {
+      font-style: normal;
+      color: var(--sky);
+      position: relative;
+    }
+    .hero-title em::after {
+      content: '';
+      position: absolute;
+      bottom: 2px; right: 0; left: 0;
+      height: 3px;
+      background: var(--sky);
+      border-radius: 2px;
+      opacity: .4;
+    }
+
+    .hero-desc {
+      color: rgba(255,255,255,.7);
+      font-size: 17px;
+      line-height: 1.8;
+      margin-bottom: 36px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--sky);
+      color: var(--navy);
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 6px 20px rgba(0,180,216,.35);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,180,216,.5); }
+
+    .btn-outline {
+      border: 2px solid rgba(255,255,255,.3);
+      color: var(--white);
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: border-color .2s, background .2s;
+    }
+    .btn-outline:hover { border-color: var(--sky); background: rgba(0,180,216,.1); }
+
+    /* Hero visual card */
+    .hero-visual {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .ac-card {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(0,180,216,.2);
+      border-radius: 20px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      animation: cardFloat 4s ease-in-out infinite;
+    }
+    .ac-card:nth-child(2) { animation-delay: -2s; }
+    @keyframes cardFloat {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+    .ac-card-title {
+      color: var(--sky);
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ac-stats {
+      display: flex;
+      gap: 24px;
+    }
+    .ac-stat { text-align: center; }
+    .ac-stat .num {
+      color: var(--white);
+      font-size: 28px;
+      font-weight: 900;
+    }
+    .ac-stat .lbl {
+      color: rgba(255,255,255,.5);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    /* ========== SECTION BASE ========== */
+    section { padding: 90px 24px; }
+    .section-inner { max-width: 1200px; margin: auto; }
+
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0,180,216,.1);
+      color: var(--sky);
+      border: 1px solid rgba(0,180,216,.25);
+      padding: 5px 14px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-size: clamp(26px, 4vw, 40px);
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 14px;
+      line-height: 1.3;
+    }
+    .section-title em {
+      font-style: normal;
+      color: var(--sky);
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.8;
+      max-width: 580px;
+    }
+    .section-header { margin-bottom: 52px; }
+
+    /* ========== SERVICES ========== */
+    #services { background: var(--gray); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .service-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      border: 1px solid #E8EDF2;
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--sky), var(--sky-lt));
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform .3s;
+    }
+    .service-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,.09); border-color: var(--sky-lt); }
+    .service-card:hover::before { transform: scaleX(1); }
+
+    .service-icon {
+      width: 54px; height: 54px;
+      background: linear-gradient(135deg, rgba(0,180,216,.12), rgba(0,180,216,.06));
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+      margin-bottom: 18px;
+      border: 1px solid rgba(0,180,216,.18);
+    }
+    .service-card h3 { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+    .service-card p  { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* ========== ABOUT ========== */
+    #about {
+      background: var(--white);
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 70px;
+      align-items: center;
+    }
+    .about-visual {
+      position: relative;
+    }
+    .about-img-wrap {
+      background: linear-gradient(135deg, var(--navy), #0e3460);
+      border-radius: 24px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-img-wrap::after {
+      content: '';
+      position: absolute;
+      bottom: -30px; left: -30px;
+      width: 160px; height: 160px;
+      background: var(--sky);
+      border-radius: 50%;
+      opacity: .08;
+    }
+    .about-icon-large {
+      font-size: 100px;
+      text-align: center;
+      display: block;
+      filter: drop-shadow(0 8px 24px rgba(0,180,216,.4));
+    }
+
+    .about-badge-float {
+      position: absolute;
+      bottom: -20px;
+      left: 20px;
+      background: var(--white);
+      border-radius: 14px;
+      padding: 14px 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.12);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid #E8EDF2;
+    }
+    .about-badge-float .big { font-size: 28px; font-weight: 900; color: var(--navy); }
+    .about-badge-float .sm  { font-size: 13px; color: var(--muted); }
+
+    .about-text { padding-bottom: 20px; }
+    .about-points {
+      list-style: none;
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .about-points li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      color: #374151;
+      line-height: 1.6;
+    }
+    .about-points li .check {
+      width: 22px; height: 22px;
+      background: var(--sky);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px;
+      color: var(--navy);
+      font-weight: 900;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ========== WHY US ========== */
+    #why { background: var(--navy); }
+    #why .section-title { color: var(--white); }
+    #why .section-sub   { color: rgba(255,255,255,.6); }
+    #why .section-badge { background: rgba(0,180,216,.15); border-color: rgba(0,180,216,.3); }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 24px;
+    }
+    .why-card {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius);
+      padding: 30px 24px;
+      transition: background .25s, border-color .25s, transform .25s;
+    }
+    .why-card:hover { background: rgba(0,180,216,.08); border-color: rgba(0,180,216,.3); transform: translateY(-4px); }
+    .why-num {
+      font-size: 40px;
+      font-weight: 900;
+      color: var(--sky);
+      opacity: .25;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .why-card h3 { color: var(--white); font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+    .why-card p  { color: rgba(255,255,255,.55); font-size: 14px; line-height: 1.7; }
+
+    /* ========== CTA ========== */
+    #cta {
+      background: linear-gradient(135deg, #00B4D8 0%, #0077B6 100%);
+      padding: 80px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #cta::before {
+      content: '❄';
+      position: absolute;
+      font-size: 300px;
+      opacity: .04;
+      top: -60px; left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+    .cta-title {
+      font-size: clamp(26px, 4vw, 42px);
+      font-weight: 900;
+      color: var(--white);
+      margin-bottom: 14px;
+    }
+    .cta-sub {
+      color: rgba(255,255,255,.85);
+      font-size: 17px;
+      margin-bottom: 36px;
+    }
+    .cta-btns {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-white {
+      background: var(--white);
+      color: var(--sky);
+      padding: 14px 36px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 16px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 6px 20px rgba(0,0,0,.15);
+    }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,.2); }
+
+    .btn-ghost-white {
+      border: 2px solid rgba(255,255,255,.5);
+      color: var(--white);
+      padding: 14px 36px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 16px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background .2s, border-color .2s;
+    }
+    .btn-ghost-white:hover { background: rgba(255,255,255,.15); border-color: var(--white); }
+
+    /* ========== FOOTER ========== */
+    footer {
+      background: #060F1A;
+      color: rgba(255,255,255,.6);
+      padding: 50px 24px 28px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: auto;
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      margin-bottom: 24px;
+    }
+    .footer-brand p { font-size: 14px; margin-top: 12px; max-width: 240px; line-height: 1.7; }
+    .footer-links h4 { color: var(--white); font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+    .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .footer-links a { color: rgba(255,255,255,.55); text-decoration: none; font-size: 14px; transition: color .2s; }
+    .footer-links a:hover { color: var(--sky); }
+    .footer-bottom {
+      text-align: center;
+      font-size: 13px;
+      color: rgba(255,255,255,.3);
+    }
+
+    /* ========== FLOATING BUTTONS ========== */
+    .floats {
+      position: fixed;
+      bottom: 28px;
+      left: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 999;
+    }
+    .float-btn {
+      width: 54px; height: 54px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none;
+      font-size: 24px;
+      transition: transform .25s, box-shadow .25s;
+      position: relative;
+    }
+    .float-btn:hover { transform: scale(1.12); }
+    .float-btn .tooltip {
+      position: absolute;
+      left: 62px;
+      background: var(--navy);
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s;
+    }
+    .float-btn .tooltip::before {
+      content: '';
+      position: absolute;
+      right: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 5px solid transparent;
+      border-right-color: var(--navy);
+    }
+    .float-btn:hover .tooltip { opacity: 1; }
+
+    .float-wa {
+      background: #25D366;
+      box-shadow: 0 6px 20px rgba(37,211,102,.4);
+    }
+    .float-wa:hover { box-shadow: 0 10px 30px rgba(37,211,102,.6); }
+
+    .float-call {
+      background: var(--sky);
+      box-shadow: 0 6px 20px rgba(0,180,216,.4);
+    }
+    .float-call:hover { box-shadow: 0 10px 30px rgba(0,180,216,.6); }
+
+    /* Pulse ring */
+    .float-btn::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px solid currentColor;
+      opacity: 0;
+      animation: ring 2.5s ease-out infinite;
+    }
+    .float-wa::after  { color: #25D366; }
+    .float-call::after { color: var(--sky); animation-delay: -1.25s; }
+    @keyframes ring {
+      0%   { opacity: .6; transform: scale(1); }
+      100% { opacity: 0;  transform: scale(1.6); }
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hamburger  { display: flex; }
+      .hero-content { grid-template-columns: 1fr; text-align: center; }
+      .hero-btns    { justify-content: center; }
+      .hero-visual  { display: none; }
+      .about-grid   { grid-template-columns: 1fr; }
+      .about-visual { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      section { padding: 60px 16px; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#hero" class="logo">
+      <div class="logo-icon">❄️</div>
+      <div class="logo-text">
+        مؤسسة تكيفات
+        <span>خميس مشيط · أبها</span>
+      </div>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#services">خدماتنا</a></li>
+      <li><a href="#about">من نحن</a></li>
+      <li><a href="#why">لماذا نحن</a></li>
+      <li><a href="tel:0541927954" class="nav-cta">📞 اتصل الآن</a></li>
+    </ul>
+
+    <button class="hamburger" id="hamburger" aria-label="القائمة">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#services"  onclick="closeMenu()">خدماتنا</a>
+    <a href="#about"     onclick="closeMenu()">من نحن</a>
+    <a href="#why"       onclick="closeMenu()">لماذا نحن</a>
+    <a href="#cta"       onclick="closeMenu()">تواصل معنا</a>
+    <a href="tel:0541927954" style="color:var(--sky);font-weight:700;">📞 0541927954</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="wave-bg">
+    <svg viewBox="0 0 1440 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="none" stroke="#00B4D8" stroke-width="1.5"
+        d="M0,300 C200,200 400,400 600,300 S1000,150 1200,300 S1440,400 1440,300"/>
+      <path fill="none" stroke="#00B4D8" stroke-width="1"
+        d="M0,350 C250,250 450,450 700,350 S1100,200 1440,350"/>
+      <path fill="none" stroke="#90E0EF" stroke-width="1"
+        d="M0,250 C300,150 500,350 750,250 S1100,100 1440,250"/>
+    </svg>
+  </div>
+  <div class="particles" id="particles"></div>
+
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="hero-badge"><div class="dot"></div> متاحون على مدار الساعة</div>
+      <h1 class="hero-title">
+        خبراء <em>التكييف</em><br>في جنوب المملكة
+      </h1>
+      <p class="hero-desc">
+        تركيب وصيانة وغسيل جميع أنواع المكيفات باحترافية عالية في خميس مشيط وأبها.
+        نضمن راحتك وبرودتك في أقصر وقت وبأفضل جودة.
+      </p>
+      <div class="hero-btns">
+        <a href="tel:0541927954" class="btn-primary">📞 اتصل الآن</a>
+        <a href="https://wa.me/966541927954" target="_blank" class="btn-outline">💬 واتساب</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="ac-card">
+        <div class="ac-card-title">🌡️ إحصائياتنا</div>
+        <div class="ac-stats">
+          <div class="ac-stat"><div class="num">+500</div><div class="lbl">عميل راضٍ</div></div>
+          <div class="ac-stat"><div class="num">+8</div><div class="lbl">سنوات خبرة</div></div>
+          <div class="ac-stat"><div class="num">24/7</div><div class="lbl">دعم فني</div></div>
+        </div>
+      </div>
+      <div class="ac-card">
+        <div class="ac-card-title">⚡ أسرع تنفيذ</div>
+        <div class="ac-stats">
+          <div class="ac-stat"><div class="num">100%</div><div class="lbl">رضا العملاء</div></div>
+          <div class="ac-stat"><div class="num">30+</div><div class="lbl">فني متخصص</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SERVICES ===== -->
+<section id="services">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-badge">❄️ خدماتنا</div>
+      <h2 class="section-title">كل ما تحتاجه في <em>التكييف</em></h2>
+      <p class="section-sub">نقدم حلولاً متكاملة لجميع أنواع المكيفات بكفاءة عالية وأسعار منافسة في خميس مشيط وأبها.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🏗️</div>
+        <h3>تركيب مكيفات كونسيلد</h3>
+        <p>تركيب احترافي للمكيفات المخفية داخل الأسقف والجدران بإتقان تام وتشطيب ممتاز.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🏢</div>
+        <h3>مكيفات مركزية</h3>
+        <p>تصميم وتركيب أنظمة التكييف المركزي للمشاريع السكنية والتجارية والصناعية.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">❄️</div>
+        <h3>تركيب مكيفات سبليت</h3>
+        <p>تركيب دقيق لجميع ماركات المكيفات السبليت مع ضمان كفاءة التشغيل الكاملة.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔧</div>
+        <h3>صيانة مكيفات</h3>
+        <p>فريق صيانة متخصص لإصلاح جميع أعطال المكيفات باستخدام قطع غيار أصلية معتمدة.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🚿</div>
+        <h3>غسيل مكيفات</h3>
+        <p>خدمة غسيل وتنظيف شاملة للمكيفات بضغط الماء والمعقمات لأداء مثالي وهواء نقي.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">⚡</div>
+        <h3>تأسيس مكيفات</h3>
+        <p>تأسيس كامل لأنظمة التكييف في المباني الجديدة من مرحلة البناء حتى التسليم.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-visual">
+        <div class="about-img-wrap">
+          <span class="about-icon-large">❄️</span>
+        </div>
+        <div class="about-badge-float">
+          <div>
+            <div class="big">+8</div>
+            <div class="sm">سنوات خبرة</div>
+          </div>
+          <div style="font-size:32px">🏆</div>
+        </div>
+      </div>
+
+      <div class="about-text">
+        <div class="section-badge">💡 من نحن</div>
+        <h2 class="section-title">مؤسسة رائدة في<br><em>حلول التكييف</em></h2>
+        <p class="section-sub">
+          مؤسسة تكيفات هي شركة متخصصة في تركيب وصيانة وغسيل جميع أنواع المكيفات
+          في مدينتي خميس مشيط وأبها بمنطقة عسير جنوب المملكة العربية السعودية.
+          نمتلك فريقاً من الفنيين المدربين على أعلى مستوى، ونحرص على تقديم أفضل جودة بأسعار في متناول الجميع.
+        </p>
+        <ul class="about-points">
+          <li><div class="check">✓</div>فنيون معتمدون ومدربون على أحدث التقنيات</li>
+          <li><div class="check">✓</div>نستخدم قطع غيار وأدوات أصلية معتمدة</li>
+          <li><div class="check">✓</div>خدمة طوارئ متاحة 24 ساعة طوال أيام الأسبوع</li>
+          <li><div class="check">✓</div>نخدم خميس مشيط وأبها وجميع مناطق عسير</li>
+          <li><div class="check">✓</div>أسعار تنافسية مع ضمان على جميع أعمالنا</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY US ===== -->
+<section id="why">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-badge">⭐ لماذا نحن</div>
+      <h2 class="section-title">لماذا يختارنا <em>الآلاف</em>؟</h2>
+      <p class="section-sub">نتميز بالجودة والسرعة والأمانة في كل ما نقدمه لعملائنا الكرام.</p>
+    </div>
+
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-num">01</div>
+        <h3>خبرة أكثر من 8 سنوات</h3>
+        <p>سنوات من الخبرة في قطاع التكييف جعلتنا الخيار الأول لعملائنا في جنوب المملكة.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-num">02</div>
+        <h3>استجابة سريعة</h3>
+        <p>نصل إليك في أسرع وقت ممكن. فريق الطوارئ لدينا جاهز على مدار الساعة طوال الأسبوع.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-num">03</div>
+        <h3>ضمان شامل</h3>
+        <p>جميع أعمالنا مضمونة. إذا حدث أي عطل بعد خدمتنا، نعود ونصلح بدون أي تكلفة إضافية.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-num">04</div>
+        <h3>أسعار شفافة</h3>
+        <p>لا أسعار مخفية ولا مفاجآت. نقدم عرض سعر واضح قبل البدء بأي عمل.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-num">05</div>
+        <h3>فنيون معتمدون</h3>
+        <p>فريقنا مدرب ومعتمد من الشركات الكبرى، يضمن لك أعلى جودة في التنفيذ.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-num">06</div>
+        <h3>رضا العميل أولاً</h3>
+        <p>لا نغادر حتى تتأكد أنت بنفسك من كفاءة العمل. رضاك هو معيار نجاحنا.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section id="cta">
+  <div class="section-inner" style="max-width:700px; position:relative; z-index:1;">
+    <h2 class="cta-title">جاهزون لخدمتك الآن</h2>
+    <p class="cta-sub">تواصل معنا الآن واحصل على استشارة مجانية وعرض سعر فوري</p>
+    <div class="cta-btns">
+      <a href="tel:0541927954" class="btn-white">📞 اتصل بنا مباشرة</a>
+      <a href="https://wa.me/966541927954" target="_blank" class="btn-ghost-white">💬 تواصل عبر واتساب</a>
+    </div>
+    <p style="color:rgba(255,255,255,.7); margin-top:20px; font-size:15px; font-weight:600;">
+      📍 خميس مشيط وأبها — جنوب المملكة العربية السعودية
+    </p>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#hero" class="logo">
+          <div class="logo-icon">❄️</div>
+          <div class="logo-text">مؤسسة تكيفات<span>خميس مشيط · أبها</span></div>
+        </a>
+        <p>متخصصون في تركيب وصيانة وغسيل جميع أنواع المكيفات في جنوب المملكة العربية السعودية.</p>
+      </div>
+
+      <div class="footer-links">
+        <h4>خدماتنا</h4>
+        <ul>
+          <li><a href="#services">مكيفات كونسيلد</a></li>
+          <li><a href="#services">مكيفات مركزية</a></li>
+          <li><a href="#services">مكيفات سبليت</a></li>
+          <li><a href="#services">صيانة وغسيل</a></li>
+          <li><a href="#services">تأسيس مكيفات</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>تواصل معنا</h4>
+        <ul>
+          <li><a href="tel:0541927954">📞 0541927954</a></li>
+          <li><a href="https://wa.me/966541927954" target="_blank">💬 واتساب</a></li>
+          <li><a href="#about">📍 خميس مشيط وأبها</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 مؤسسة تكيفات — جميع الحقوق محفوظة | خميس مشيط وأبها، جنوب المملكة العربية السعودية</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== FLOATING BUTTONS ===== -->
+<div class="floats">
+  <a href="https://wa.me/966541927954" target="_blank" class="float-btn float-wa" title="واتساب">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.553 4.116 1.524 5.85L.057 23.7a.75.75 0 0 0 .918.918l5.85-1.467A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.937 9.937 0 0 1-5.058-1.378.75.75 0 0 0-.572-.077l-4.02 1.007 1.007-4.02a.75.75 0 0 0-.077-.572A9.937 9.937 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+    </svg>
+    <div class="tooltip">واتساب</div>
+  </a>
+  <a href="tel:0541927954" class="float-btn float-call" title="اتصال">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+      <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+    </svg>
+    <div class="tooltip">اتصال</div>
+  </a>
+</div>
+
+<script>
+  // Navbar scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+
+  function closeMenu() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  }
+
+  // Smooth scroll for nav links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+        closeMenu();
+      }
+    });
+  });
+
+  // Floating particles
+  function createParticle() {
+    const container = document.getElementById('particles');
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 6 + 3;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random() * 100}%;
+      bottom:0;
+      animation-duration:${Math.random() * 8 + 6}s;
+      animation-delay:${Math.random() * 4}s;
+    `;
+    container.appendChild(p);
+    setTimeout(() => p.remove(), 14000);
+  }
+
+  setInterval(createParticle, 600);
+
+  // Intersection observer for cards
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.service-card, .why-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity .5s ease, transform .5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
